@@ -1,0 +1,27 @@
+/*
+　オレオレキーボードカスタマイズ
+ */
+Main.observe("exit",function()println("main thread is  correctly terminating"));
+
+println=function(s)(Thread.create(function()Main.stdout.writeLine(s)));
+
+Main.createNotifyIcon();
+
+Main.process.priority=Process.priority.high;
+
+/* Right Windows  Code 0x5c scancode 0x15c */
+
+require('Hotstrokes').Hotstrokes.use(
+	'IME'
+).map({
+	'colon' : function(){
+		this.cancel().send("[Enter]");
+	},
+	'Ctrl+colon' : function(){
+		this.cancel().send("[colon]");
+	},
+	'RWin' : function(){
+		this.cancel();
+		this.IMEToggle();
+	}
+}).register();
